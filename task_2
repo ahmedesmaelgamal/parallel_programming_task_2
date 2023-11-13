@@ -42,14 +42,9 @@ void login_user(User* user) {
 }
 
 int main() {
-  // Declare variables
   int opt;
   User user;
 
-  // Display the welcome message
-  printf("\n\t\t\t\t--------------------Welcome to outhentication system--------");
-
-  // Get the user's choice
   printf("\nPlease choose your option");
   printf("\n1. SignUp");
   printf("\n2. Login");
@@ -58,10 +53,8 @@ int main() {
   printf("\n\nYour choise :\t");
   scanf("%d", &opt);
 
-  // Handle the user's choice
   switch (opt) {
     case 1:
-      // Get the user's account status
       printf("\n1-Active");
       printf("\n2-Not Active\n");
       printf("\nEnter your option : ");
@@ -69,7 +62,6 @@ int main() {
       scanf("%d", &opt);
       user.active = opt == 1 ? ACTIVE : NOT_ACTIVE;
 
-      // Get the user's details
       printf("\nEnter Your Full name : \t");
       scanf("%s", user.fullname);
 
@@ -85,19 +77,13 @@ int main() {
       printf("\n Confirm Your Password : \t");
       scanf("%s", user.confirmpass);
 
-      // Check if the passwords match
       if (strcmp(user.password, user.confirmpass) != 0) {
         printf("\nPasswords do not match!");
         return 0;
       }
-
-      // Generate the username
       strcpy(user.username, strtok(user.email, "@"));
-
-      // Register the user
       register_user(&user);
 
-      // Print the user details
       printf("\nUser details:\n");
       printf("Full name: %s\n", user.fullname);
       printf("Username: %s\n", user.username);
@@ -107,14 +93,12 @@ int main() {
       break;
 
     case 2:
-      // Get the username and password
       printf("Enter your username: ");
       scanf("%s", user.username);
 
       printf("Enter your password: ");
       scanf("%s", user.password);
 
-      // Login the user
       login_user(&user);
       break;
 
