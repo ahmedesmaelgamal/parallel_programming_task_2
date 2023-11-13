@@ -1,0 +1,130 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef enum {
+  ACTIVE,
+  NOT_ACTIVE
+} AccountStatus;
+
+typedef struct {
+  char fullname[50];
+  char username[50];
+  char email[50];
+  char phone[50];
+  char password[50];
+  char confirmpass[50];
+  AccountStatus active;
+} User;
+
+User users[100];
+int num_users = 0;
+
+int is_user_registered(User* user) {
+  for (int i = 0; i < num_users; i++) {
+    if (strcmp(users[i].username, user->username) == 0) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+void register_user(User* user) {
+  users[num_users++] = *user;
+}
+
+void login_user(User* user) {
+  if (is_user_registered(user)) {
+    printf("Welcome, %s!\n", user->fullname);
+  } else {
+    printf("User not found!\n");
+  }
+}
+
+int main() {
+  // Declare variables
+  int opt;
+  User user;
+
+  // Display the welcome message
+  printf("\n\t\t\t\t--------------------Welcome to outhentication system--------");
+
+  // Get the user's choice
+  printf("\nPlease choose your option");
+  printf("\n1. SignUp");
+  printf("\n2. Login");
+  printf("\n3. Exit");
+
+  printf("\n\nYour choise :\t");
+  scanf("%d", &opt);
+
+  // Handle the user's choice
+  switch (opt) {
+    case 1:
+      // Get the user's account status
+      printf("\n1-Active");
+      printf("\n2-Not Active\n");
+      printf("\nEnter your option : ");
+
+      scanf("%d", &opt);
+      user.active = opt == 1 ? ACTIVE : NOT_ACTIVE;
+
+      // Get the user's details
+      printf("\nEnter Your Full name : \t");
+      scanf("%s", user.fullname);
+
+      printf("Enter Your email : \t");
+      scanf("%s", user.email);
+
+      printf("Enter Your phoneNumber : \t");
+      scanf("%s", user.phone);
+
+      printf("Enter Your Password : \t");
+      scanf("%s", user.password);
+
+      printf("\n Confirm Your Password : \t");
+      scanf("%s", user.confirmpass);
+
+      // Check if the passwords match
+      if (strcmp(user.password, user.confirmpass) != 0) {
+        printf("\nPasswords do not match!");
+        return 0;
+      }
+
+      // Generate the username
+      strcpy(user.username, strtok(user.email, "@"));
+
+      // Register the user
+      register_user(&user);
+
+      // Print the user details
+      printf("\nUser details:\n");
+      printf("Full name: %s\n", user.fullname);
+      printf("Username: %s\n", user.username);
+      printf("Email: %s\n", user.email);
+      printf("Phone: %s\n", user.phone);
+      printf("Account status: %s\n", user.active == ACTIVE ? "ACTIVE" : "NOT_ACTIVE");
+      break;
+
+    case 2:
+      // Get the username and password
+      printf("Enter your username: ");
+      scanf("%s", user.username);
+
+      printf("Enter your password: ");
+      scanf("%s", user.password);
+
+      // Login the user
+      login_user(&user);
+      break;
+
+    case 3:
+      exit(0);
+
+    default:
+      printf("\nInvalid option!");
+      return 0;
+  }
+
+  return 0;
+}
